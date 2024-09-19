@@ -1,0 +1,21 @@
+{
+  "name": "bematech",
+  "module": "index.ts",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/server.ts",
+    "start": "node run server.js"
+  },
+  "dependencies": {
+    "escpos": "3.0.0-alpha.6",
+    "express": "^4.21.0",
+    "serialport": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/escpos": "^2.5.5",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.5",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.2"
+  }
+}
