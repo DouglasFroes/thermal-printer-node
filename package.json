@@ -1,9 +1,12 @@
 {
-  "name": "bematech",
-  "module": "index.ts",
+  "name": "print",
+  "main": "src/server.ts",
+  "version": "1.0.0",
+  "description": "This is a simple print server",
   "scripts": {
     "dev": "ts-node-dev --respawn src/server.ts",
-    "start": "node run server.js"
+    "start": "node dist/server.js",
+    "build": "tsc"
   },
   "dependencies": {
     "escpos": "3.0.0-alpha.6",
