@@ -1,11 +1,9 @@
 import express, { Request, Response } from 'express';
-import { SerialPort } from 'serialport';
-import { Printer, Image } from 'escpos';
+import { SerialPort, } from 'serialport';
 import { getImage } from './getImage';
 import { getImage2 } from './getImage2';
 
 const escpos = require('escpos');
-
 const app = express();
 const port = 5647;
 
@@ -45,7 +43,6 @@ app.post('/printer', async (req: Request, res: Response) => {
       await getImage({ date, location, key });
     }
 
-
     const ports = await SerialPort.list();
     const selectedPort = ports.find((item) => item.path === path);
 
@@ -53,36 +50,23 @@ app.post('/printer', async (req: Request, res: Response) => {
       return res.status(400).send('Impressora não encontrada');
     }
 
-    const serial = new SerialPort({ path: selectedPort.path, baudRate: 9600, autoOpen: false });
-    const printer: any = new escpos(serial as any, {});
+    const device = new SerialPort({ path, baudRate: 57600, autoOpen: false });
+    const printer = new escpos.Printer(device);
 
-    serial.open((error) => {
-      if (error && error.message !== 'Port is opening') {
-        console.error('Erro ao abrir a porta serial:', error);
-        return res.status(400).send(error.message);
+    escpos.Image.load('temp/ticket.png', function (image: any) {
+      if (image instanceof Error) {
+        return res.status(500).send('Erro ao carregar imagem');
       }
-      Image.load('temp/ticket.png', (image) => {
-        if (image instanceof Error) {
-          return res.status(500).send('Erro ao carregar imagem');
-        }
 
+      device.open(function () {
         printer
-          .image(image, 'd24')
-          .then(() => {
-            printer.cut()
-              .close(
-                () => {
-                  res.send('Impressão realizada com sucesso');
-                }
-              );
-          })
-        //   // .beep(2, 100)
-        //   // .cut()
-        // .close(() => {
-        //   res.send('Impressão realizada com sucesso');
-        // });
-        // res.send('Impressão realizada com sucesso');
-
+          .raster(image)
+          .cut()
+          .close(
+            () => {
+              res.send('Impressão realizada com sucesso');
+            }
+          );
       });
     });
 
@@ -107,11 +91,11 @@ app.post('/printer-text', async (req: Request, res: Response) => {
       return res.status(400).send('Impressora não encontrada');
     }
 
-    const serial = new SerialPort({ path: selectedPort.path, baudRate: 9600, autoOpen: false });
-    const printer: Printer = new escpos(serial as any, {});
+    const device = new SerialPort({ path: selectedPort.path, baudRate: 57600, autoOpen: false });
+    const printer = new escpos.Printer(device);
 
 
-    serial.open((error) => {
+    device.open((error) => {
       if (error && error.message !== 'Port is opening') {
         console.error('Erro ao abrir a porta serial:', error);
         return res.status(400).send(error.message);
@@ -155,6 +139,59 @@ app.post('/printer-text', async (req: Request, res: Response) => {
             res.send('Impressão realizada com sucesso');
           });
       }
+    });
+  } catch (error) {
+    console.error('Erro no processo de impressão:', error);
+    res.status(500).send('Erro no processo de impressão');
+  }
+});
+
+app.post('/printer-image', async (req: Request, res: Response) => {
+  try {
+    const { path, date, location, key, type, startTime } = req.body as IBody;
+
+    if (!path || !date || !location || !key || !type) {
+      return res.status(400).send('Parâmetros inválidos');
+    }
+
+    if (type === '2') {
+      await getImage2({ date, key, startTime });
+    } else {
+      await getImage({ date, location, key });
+    }
+
+    const ports = await SerialPort.list();
+    const selectedPort = ports.find((item) => item.path === path);
+
+    if (!selectedPort) {
+      return res.status(400).send('Impressora não encontrada');
+    }
+
+    const device = new SerialPort({ path: selectedPort.path, autoOpen: false, baudRate: 57600, });
+    const printer = new escpos.Printer(device);
+
+    device.open((error) => {
+      if (error && error.message !== 'Port is opening') {
+        console.error('Erro ao abrir a porta serial:', error);
+        return res.status(400).send(error.message);
+      }
+
+      escpos.Image.load('temp/ticket.png', (image: any) => {
+        if (image instanceof Error) {
+          return res.status(500).send('Erro ao carregar imagem');
+        }
+
+        printer
+          .image(image, 'd24')
+          .then(() => {
+            printer.cut()
+              .close(
+                () => {
+                  res.send('Impressão realizada com sucesso');
+                }
+              );
+          })
+      });
     });
   } catch (error) {
     console.error('Erro no processo de impressão:', error);
