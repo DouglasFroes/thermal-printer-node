@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in rápido realizado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 0px 60px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 478px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .ticket-number {
+      font-size: 60px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .message {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .appointment-time {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .date {
+      font-size: 18px;
+      color: #999;
+      padding-bottom: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Check-in rápido realizado</h1>
+    <div class="ticket-number">{{key}}</div>
+    <div class="message">Se direcione ao painel de consultórios para ser atendido.</div>
+    {{#if startTime}}
+    <div class="appointment-time">Sua consulta está prevista para as {{startTime}}.</div>
+    {{/if}}
+    <div class="date">{{date}}</div>
+  </div>
+
+</body>
+
+</html>

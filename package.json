@@ -11,6 +11,8 @@
   "dependencies": {
     "escpos": "3.0.0-alpha.6",
     "express": "^4.21.0",
+    "handlebars": "^4.7.8",
+    "puppeteer": "^23.5.1",
     "serialport": "^12.0.0"
   },
   "devDependencies": {
