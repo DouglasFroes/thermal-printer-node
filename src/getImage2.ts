@@ -21,7 +21,7 @@ export async function getImage2(
   const filledTemplate = template({ ...props });
 
   const browser = await puppeteer.launch({
-    headless: 'shell',
+    headless: true,
     args: ['--no-sandbox'],
   });
 
