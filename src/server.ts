@@ -41,8 +41,6 @@ app.post('/printer', async (req: Request, res: Response) => {
       await getImage2({ date, key, startTime });
     } else {
       await getImage({ date, location, key });
-
-      // return res.send('Impressão realizada com sucesso');
     }
 
     const ports = await SerialPort.list();
