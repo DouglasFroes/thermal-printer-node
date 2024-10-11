@@ -41,6 +41,8 @@ app.post('/printer', async (req: Request, res: Response) => {
       await getImage2({ date, key, startTime });
     } else {
       await getImage({ date, location, key });
+
+      // return res.send('Impressão realizada com sucesso');
     }
 
     const ports = await SerialPort.list();
@@ -90,6 +92,8 @@ app.post('/printer-text', async (req: Request, res: Response) => {
     if (!selectedPort) {
       return res.status(400).send('Impressora não encontrada');
     }
+
+
 
     const device = new SerialPort({ path: selectedPort.path, baudRate: 57600, autoOpen: false });
     const printer = new escpos.Printer(device);
