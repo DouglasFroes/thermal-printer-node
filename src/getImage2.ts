@@ -32,7 +32,7 @@ export async function getImage2(
 
   await page.screenshot({
     type: 'png', path: 'temp/ticket.png',
-    clip: { x: 0, y: 20, width: 640, height: props.startTime ? 400 : 380, }
+    clip: { x: 0, y: 20, width: 580, height: props.startTime ? 400 : 380, }
   });
 
   await page.close();
