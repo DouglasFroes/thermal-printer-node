@@ -38,7 +38,7 @@ app.post('/printer', async (req: Request, res: Response) => {
     }
 
     if (type === '2') {
-      await getImage2({ date, key, startTime });
+      await getImage2({ date, location, key, startTime });
     } else {
       await getImage({ date, location, key });
     }
@@ -157,7 +157,7 @@ app.post('/printer-image', async (req: Request, res: Response) => {
     }
 
     if (type === '2') {
-      await getImage2({ date, key, startTime });
+      await getImage2({ date, key, startTime, location });
     } else {
       await getImage({ date, location, key });
     }

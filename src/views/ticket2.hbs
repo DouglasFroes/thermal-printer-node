@@ -23,7 +23,6 @@
     h1 {
       font-size: 33px;
       font-weight: 600;
-      margin-bottom: 24px;
       color: #333;
     }
 
@@ -53,18 +52,27 @@
       margin-top: 30px;
       padding-bottom: 50px;
     }
+
+    .autoCl {
+      font-size: 24px;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 20px;
+      margin-top: -15px;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="container">
-    <h1>Check-in rápido realizado</h1>
+    <h1>Leve Saúde <br /> {{location}}</h1>
+    <div class="autoCl">Auto Atendimento</div>
     <div class="ticket-number">{{key}}</div>
     <div class="message">Você não precisará passar na recepção, acompanhe o painel de consultórios e aguarde ser
       chamado.</div>
     {{#if startTime}}
-    <div class="appointment-time">Sua consulta está prevista para as {{startTime}}.</div>
+    <div class="appointment-time">Sua Atendimento está previsto para as {{startTime}}.</div>
     {{/if}}
     <div class="date">{{date}}</div>
   </div>
