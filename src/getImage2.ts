@@ -22,7 +22,7 @@ export async function getImage2(
   const filledTemplate = template({ ...props });
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: 'shell',
     args: ['--no-sandbox'],
   });
 
@@ -33,7 +33,7 @@ export async function getImage2(
 
   await page.screenshot({
     type: 'png', path: 'temp/ticket.png',
-    clip: { x: 0, y: 20, width: 580, height: props.startTime ? 440 : 420, }
+    clip: { x: 0, y: 20, width: 580, height: props.startTime ? 460 : 420, }
   });
 
   await page.close();
