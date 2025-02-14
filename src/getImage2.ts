@@ -1,7 +1,7 @@
-import puppeteer from 'puppeteer';
+import fs from 'fs';
 import * as handlebars from 'handlebars';
 import { resolve } from 'path';
-import fs from 'fs';
+import puppeteer from 'puppeteer';
 
 type Props = {
   date: string;
@@ -23,7 +23,7 @@ export async function getImage2(
 
   const browser = await puppeteer.launch({
     headless: 'shell',
-    args: ['--no-sandbox'],
+    args: ['--no-sandbox', '--single-process'],
   });
 
 
@@ -37,7 +37,5 @@ export async function getImage2(
   });
 
   await page.close();
-
-
-  return 'image';
+  await browser.close();
 }
